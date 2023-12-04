@@ -1,0 +1,15 @@
+POST http://localhost:8080/player
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "race": {
+    "type": "highElf",
+    "cantrip": "ACID_SPLASH",
+    "extraLanguage": "DWARVISH"
+  }
+}
+
+### GET
+GET http://localhost:8080/player/1
+Content-Type: application/json
