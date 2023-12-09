@@ -1,12 +1,8 @@
 package fan.dnd.dndcharactergeneratorkotlin.service
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.ObjectMapper
 import fan.dnd.dndcharactergeneratorkotlin.controller.type.PlayerIn
-import fan.dnd.dndcharactergeneratorkotlin.persistance.PlayerDao
-import fan.dnd.dndcharactergeneratorkotlin.persistance.PlayerRepository
-import fan.dnd.dndcharactergeneratorkotlin.persistance.RaceDao
-import fan.dnd.dndcharactergeneratorkotlin.persistance.RaceRepository
+import fan.dnd.dndcharactergeneratorkotlin.persistance.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -15,6 +11,7 @@ import java.util.*
 @Transactional
 class PlayerService(
     val playerRepository: PlayerRepository,
+    val spellRepository: SpellRepository,
     val raceRepository: RaceRepository,
 ) {
 
@@ -29,8 +26,8 @@ class PlayerService(
             intelligence = race.intelligence().value,
             charisma = race.charisma().value,
             wisdom = race.wisdom().value,
-            cantrips = race.cantrips(),
-            spells = race.spells(),
+            cantrips = race.cantrips().map { spellRepository.findBySpellId(it) }.toSet(),
+            spells = race.spells().map { spellRepository.findBySpellId(it) }.toSet(),
             armourProficiencies = race.armourProficiencies(),
             weaponProficiencies = race.weaponProficiencies(),
             genericAbilities = race.genericAbilities(),
@@ -44,21 +41,21 @@ class PlayerService(
        return playerRepository.save(
             PlayerDao(
                 name = playerIn.name,
-                speed = playerIn.race.speed(),
-                strength = playerIn.rolledStrength + race.strength().value,
-                intelligence = playerIn.rolledIntelligence + race.intelligence().value,
-                charisma = playerIn.rolledCharisma + race.charisma().value,
-                dexterity = playerIn.rolledDexterity + race.dexterity().value,
-                constitution = playerIn.rolledConstitution + race.constitution().value,
-                wisdom = playerIn.rolledWisdom + race.wisdom().value,
-                armourProficiencies = race.armourProficiencies().toMutableSet(),
-                weaponProficiencies = race.weaponProficiencies().toMutableSet(),
-                genericAbilities = race.genericAbilities().toMutableSet(),
-                damageAbilities = race.damageAbilities().toMutableSet(),
-                proficiencies = race.proficiencies().toMutableSet(),
-                languages = race.languages().toMutableSet(),
-                cantrips = race.cantrips().toMutableSet(),
-                spells = race.spells().toMutableSet(),
+                speed = 0,
+                strength = playerIn.rolledStrength,
+                intelligence = playerIn.rolledIntelligence,
+                charisma = playerIn.rolledCharisma,
+                dexterity = playerIn.rolledDexterity,
+                constitution = playerIn.rolledConstitution,
+                wisdom = playerIn.rolledWisdom,
+                armourProficiencies = mutableSetOf(),
+                weaponProficiencies = mutableSetOf(),
+                genericAbilities = mutableSetOf(),
+                damageAbilities = mutableSetOf(),
+                proficiencies = mutableSetOf(),
+                languages = mutableSetOf(),
+                cantrips = mutableSetOf(),
+                spells = mutableSetOf(),
                 raceId = raceDao.id,
             )
         )

@@ -1,37 +1,27 @@
 package fan.dnd.dndcharactergeneratorkotlin.domain.race
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import fan.dnd.dndcharactergeneratorkotlin.domain.*
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.dragonborn.Dragonborn
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.elf.Elf
-import fan.dnd.dndcharactergeneratorkotlin.domain.spells.Spellbook
-import fan.dnd.dndcharactergeneratorkotlin.persistance.SpellDao
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
 
 
-@Component
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes(
     JsonSubTypes.Type(value = Elf::class, name = "highElf"),
     JsonSubTypes.Type(value = Dragonborn::class, name = "dragonborn")
 )
 abstract class AbstractRace{
-    @Autowired
-    @JsonIgnore
-    protected lateinit var spellbook: Spellbook
     fun raceName(): String = this.javaClass.simpleName
     fun otherTraits(): String = ""
 
     fun speed(): Int = 30 // Default speed
 
-    fun cantrips(): Set<SpellDao> = emptySet()
+    fun cantrips(): Set<Int> = emptySet()
 
-    fun spells(): Set<SpellDao> = emptySet()
+    fun spells(): Set<Int> = emptySet()
 
 
     fun genericAbilities(): Set<Ability> = emptySet()

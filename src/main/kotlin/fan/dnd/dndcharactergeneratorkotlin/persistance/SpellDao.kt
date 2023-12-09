@@ -1,5 +1,9 @@
 package fan.dnd.dndcharactergeneratorkotlin.persistance
 
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import fan.dnd.dndcharactergeneratorkotlin.domain.ClassName
 import jakarta.persistence.*
 
@@ -17,6 +21,7 @@ class SpellDao(
     val level: String? = null,
     val higherLevel: String? = null,
     val school: String? = null,
+    @JsonDeserialize(using = ClassNameDeserializer::class)
     @ElementCollection(targetClass = ClassName::class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "class")
@@ -39,3 +44,9 @@ class SpellDao(
     val races: Set<RaceDao> = emptySet(),
 
 ): IdAncestor()
+
+class ClassNameDeserializer : JsonDeserializer<Set<ClassName>>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Set<ClassName> {
+        return p.text.split(",").map { it.trim() }.filter { it.isNotEmpty() }.map { ClassName.valueOf(it.uppercase()) }.toSet()
+    }
+}

@@ -1,8 +1,8 @@
-package com.dnd.DnDCharacterGenerator.service
+package fan.dnd.dndcharactergeneratorkotlin.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import fan.dnd.dndcharactergeneratorkotlin.persistance.SpellDao
-import fan.dnd.dndcharactergeneratorkotlin.service.SpellRepository
+import fan.dnd.dndcharactergeneratorkotlin.persistance.SpellRepository
 import jakarta.annotation.PostConstruct
 import jakarta.transaction.Transactional
 import org.springframework.core.io.ResourceLoader

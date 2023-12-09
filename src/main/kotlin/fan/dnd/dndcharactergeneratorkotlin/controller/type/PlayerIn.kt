@@ -4,16 +4,39 @@ import fan.dnd.dndcharactergeneratorkotlin.domain.StatName
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.AbstractRace
 import kotlin.random.Random
 
-data class PlayerIn(
-    val name: String,
-    val race: AbstractRace,
-    var rolledIntelligence: Int,
-    var rolledWisdom: Int,
-    var rolledCharisma: Int,
-    var rolledStrength: Int,
-    var rolledDexterity: Int,
-    var rolledConstitution: Int
-) {
+
+
+class PlayerIn(){
+
+    lateinit var name: String
+    lateinit var race: AbstractRace
+    var rolledIntelligence: Int = 0
+    var rolledWisdom: Int = 0
+    var rolledCharisma: Int = 0
+    var rolledStrength: Int = 0
+    var rolledDexterity: Int = 0
+    var rolledConstitution: Int = 0
+
+    constructor(
+        name: String,
+        race: AbstractRace,
+        rolledIntelligence: Int,
+        rolledWisdom: Int,
+        rolledCharisma: Int,
+        rolledStrength: Int,
+        rolledDexterity: Int,
+        rolledConstitution: Int
+    ): this(){
+        this.name = name
+        this.race = race
+        this.rolledIntelligence = rolledIntelligence
+        this.rolledWisdom = rolledWisdom
+        this.rolledCharisma = rolledCharisma
+        this.rolledStrength = rolledStrength
+        this.rolledDexterity = rolledDexterity
+        this.rolledConstitution = rolledConstitution
+    }
+
     constructor(
         name: String,
         race: AbstractRace,
@@ -23,16 +46,9 @@ data class PlayerIn(
         fourthStrongestStat: StatName,
         fifthStrongestStat: StatName,
         sixthStrongestStat: StatName
-    ) : this(
-        name = name,
-        race = race,
-        rolledIntelligence = 0,
-        rolledWisdom = 0,
-        rolledCharisma = 0,
-        rolledStrength = 0,
-        rolledDexterity = 0,
-        rolledConstitution = 0
-    ) {
+    ) : this() {
+        this.name = name
+        this.race = race
         if (setOf(
                 strongestStat,
                 secondStrongestStat,
