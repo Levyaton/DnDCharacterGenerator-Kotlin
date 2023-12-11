@@ -4,15 +4,16 @@ import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
+import org.apache.commons.lang3.builder.HashCodeBuilder
 
 @Embeddable
 open class Ability protected constructor(
-    val name: String,
+    var name: String,
     @Column(columnDefinition = "TEXT")
     var description: String,
-    val useCount: Int,
+    var useCount: Int,
     @Enumerated(EnumType.STRING)
-    val refreshRate: SkillRefreshRate
+    var refreshRate: SkillRefreshRate
 ) {
     enum class SkillRefreshRate {
         SHORT_REST,
@@ -24,4 +25,16 @@ open class Ability protected constructor(
     companion object {
         const val UNLIMITED_USE_CONSTANT = 999999
     }
+
+    override fun equals(other: Any?): Boolean = this.hashCode() == other.hashCode()
+
+
+    override fun hashCode(): Int =
+       HashCodeBuilder()
+            .append(name)
+            .append(description)
+            .append(useCount)
+            .append(refreshRate)
+            .toHashCode()
+
 }

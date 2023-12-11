@@ -8,6 +8,7 @@ import kotlin.random.Random
 
 class PlayerIn(){
 
+    lateinit var gameName: String
     lateinit var name: String
     lateinit var race: AbstractRace
     var rolledIntelligence: Int = 0
@@ -18,6 +19,7 @@ class PlayerIn(){
     var rolledConstitution: Int = 0
 
     constructor(
+        gameName: String,
         name: String,
         race: AbstractRace,
         rolledIntelligence: Int,
@@ -27,6 +29,7 @@ class PlayerIn(){
         rolledDexterity: Int,
         rolledConstitution: Int
     ): this(){
+        this.gameName = gameName
         this.name = name
         this.race = race
         this.rolledIntelligence = rolledIntelligence
@@ -38,6 +41,7 @@ class PlayerIn(){
     }
 
     constructor(
+        ganeName: String,
         name: String,
         race: AbstractRace,
         strongestStat: StatName,
@@ -47,6 +51,7 @@ class PlayerIn(){
         fifthStrongestStat: StatName,
         sixthStrongestStat: StatName
     ) : this() {
+        this.gameName = ganeName
         this.name = name
         this.race = race
         if (setOf(

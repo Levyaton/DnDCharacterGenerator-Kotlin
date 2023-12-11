@@ -5,12 +5,20 @@ import fan.dnd.dndcharactergeneratorkotlin.domain.Language
 import fan.dnd.dndcharactergeneratorkotlin.domain.Skill
 import fan.dnd.dndcharactergeneratorkotlin.domain.Weapon
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability
+import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.AttackAbility
 import jakarta.persistence.*
 
 @Entity
+@Table(
+    name = "PlayerDao",
+    uniqueConstraints = [
+        UniqueConstraint(columnNames = ["name", "gameName"])
+    ]
+)
 class PlayerDao(
+    val gameName: String,
     var speed: Int = 0,
-    var name: String? = null,
+    var name: String = "",
     var strength: Int = 0,
     var dexterity: Int = 0,
     var constitution: Int = 0,
@@ -52,7 +60,7 @@ class PlayerDao(
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "PlayerDamageAbilities", joinColumns = [JoinColumn(name = "playerId")])
-    val damageAbilities: MutableSet<Ability>,
+    val damageAbilities: MutableSet<AttackAbility>,
 
     @ElementCollection(targetClass = Skill::class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

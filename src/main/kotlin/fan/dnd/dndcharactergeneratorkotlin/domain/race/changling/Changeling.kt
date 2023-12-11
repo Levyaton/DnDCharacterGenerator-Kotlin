@@ -2,6 +2,9 @@ package fan.dnd.dndcharactergeneratorkotlin.domain.race.changling
 
 import fan.dnd.dndcharactergeneratorkotlin.domain.Stat
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.AbstractRace
+import fan.dnd.dndcharactergeneratorkotlin.domain.race.Race
+import fan.dnd.dndcharactergeneratorkotlin.domain.race.RaceCreator
+import fan.dnd.dndcharactergeneratorkotlin.persistance.RaceDao
 
 
 class Changeling internal constructor(private val selectedStat: ModifierInput) : AbstractRace() {
@@ -16,11 +19,12 @@ class Changeling internal constructor(private val selectedStat: ModifierInput) :
         }
     }
 
-    override fun raceName(): String = this.javaClass.name
+    override fun raceName() = Race.CHANGELING
 
     override fun dexterity(): Stat = Stat.Dexterity(dexMod)
     override fun intelligence(): Stat = Stat.Intelligence(intMod)
     override fun charisma(): Stat = Stat.Charisma(2)
+
     enum class ModifierInput {
         DEXTERITY,
         INTELLIGENCE

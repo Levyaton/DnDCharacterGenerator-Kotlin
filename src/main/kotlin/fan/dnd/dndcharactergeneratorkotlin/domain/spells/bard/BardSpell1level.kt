@@ -23,5 +23,4 @@ enum class BardSpell1level(val id: Int) {
     TASHA_S_HIDEOUS_LAUGHTER(362),
     THUNDERWAVE(372),
     UNSEEN_SERVANT(385)
-
 }

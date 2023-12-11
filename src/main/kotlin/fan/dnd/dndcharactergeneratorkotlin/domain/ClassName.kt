@@ -12,5 +12,6 @@ enum class ClassName {
     ROGUE,
     SORCERER,
     WARLOCK,
-    WIZARD
+    WIZARD,
+    RITUAL_CASTER,
 }

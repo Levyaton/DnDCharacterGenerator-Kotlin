@@ -29,8 +29,8 @@ abstract class BaseIntegrationTest: BaseTest() {
 
     @BeforeEach
     fun setUp() {
+        tearDown()
         httpClient = WebClient.builder().baseUrl("http://localhost:$port/").build()
-     //   spellService.initializeSpells()
     }
 
     @AfterEach

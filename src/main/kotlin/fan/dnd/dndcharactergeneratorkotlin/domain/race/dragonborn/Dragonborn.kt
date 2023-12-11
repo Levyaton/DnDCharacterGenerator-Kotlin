@@ -8,6 +8,7 @@ import fan.dnd.dndcharactergeneratorkotlin.domain.StatName
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.AttackAbility
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.AbstractRace
+import fan.dnd.dndcharactergeneratorkotlin.domain.race.Race
 
 @JsonTypeName("dragonborn")
 class Dragonborn internal constructor(private val color: Color) : AbstractRace() {
@@ -63,6 +64,8 @@ class Dragonborn internal constructor(private val color: Color) : AbstractRace()
     override fun charisma(): Stat {
         return Stat.Charisma(1)
     }
+
+    override fun raceName(): Race = Race.DRAGONBORN
 
     override fun otherTraits(): String {
         return color.name + " Dragonborn"

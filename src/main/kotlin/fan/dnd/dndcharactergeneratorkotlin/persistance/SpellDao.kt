@@ -1,5 +1,7 @@
 package fan.dnd.dndcharactergeneratorkotlin.persistance
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
@@ -9,7 +11,7 @@ import jakarta.persistence.*
 
 
 @Entity
-class SpellDao(
+class SpellDao @JsonCreator constructor(
     val name: String,
     val page: String? = null,
     val range: String? = null,
@@ -21,6 +23,7 @@ class SpellDao(
     val level: String? = null,
     val higherLevel: String? = null,
     val school: String? = null,
+    @JsonProperty("clazz")
     @JsonDeserialize(using = ClassNameDeserializer::class)
     @ElementCollection(targetClass = ClassName::class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
@@ -38,15 +41,15 @@ class SpellDao(
     val spellId: Int,
 
     @ManyToMany(mappedBy = "spells", fetch = FetchType.EAGER)
-    val players: Set<PlayerDao> = emptySet(),
+    val players: Set<PlayerDao>? = emptySet(),
 
     @ManyToMany(mappedBy = "spells", fetch = FetchType.EAGER)
-    val races: Set<RaceDao> = emptySet(),
+    val races: Set<RaceDao>? = emptySet(),
 
 ): IdAncestor()
 
 class ClassNameDeserializer : JsonDeserializer<Set<ClassName>>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Set<ClassName> {
-        return p.text.split(",").map { it.trim() }.filter { it.isNotEmpty() }.map { ClassName.valueOf(it.uppercase()) }.toSet()
+        return p.text.split(",").map { it.trim() }.filter { it.isNotEmpty() }.map { ClassName.valueOf(it.uppercase().replace(" ","_")) }.toSet()
     }
 }

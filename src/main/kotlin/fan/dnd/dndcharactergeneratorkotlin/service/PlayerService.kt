@@ -2,6 +2,7 @@ package fan.dnd.dndcharactergeneratorkotlin.service
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import fan.dnd.dndcharactergeneratorkotlin.controller.type.PlayerIn
+import fan.dnd.dndcharactergeneratorkotlin.domain.Player
 import fan.dnd.dndcharactergeneratorkotlin.persistance.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -40,6 +41,7 @@ class PlayerService(
 
        return playerRepository.save(
             PlayerDao(
+                gameName = playerIn.gameName,
                 name = playerIn.name,
                 speed = 0,
                 strength = playerIn.rolledStrength,
@@ -59,6 +61,12 @@ class PlayerService(
                 raceId = raceDao.id,
             )
         )
+    }
+
+    fun getPlayer(gameName: String, playerName: String): Player {
+        val playerDao = playerRepository.findByGameNameAndName(gameName, playerName)
+        val raceDao = raceRepository.findById(playerDao.raceId).get()
+        return Player(player = playerDao, race = raceDao)
     }
 
     fun getPlayerById(id: Long): PlayerDao = playerRepository.findById(id).get()

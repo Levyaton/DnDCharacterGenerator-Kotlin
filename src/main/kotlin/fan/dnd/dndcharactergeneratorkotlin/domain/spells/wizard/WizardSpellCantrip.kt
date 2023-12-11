@@ -29,4 +29,7 @@ enum class WizardSpellCantrip(val id: Int) {
     THUNDERCLAP(371),
     TRUE_STRIKE(383)
 
+    companion object {
+        fun valueOf(id: Int): WizardSpellCantrip = entries.find { it.id == id } ?: throw IllegalArgumentException("No Spell with id $id exists!")
+    }
 }

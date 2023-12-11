@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PlayerRepository : JpaRepository<PlayerDao, Long> {
-    fun findByName(name: String): PlayerDao
+    fun findByGameNameAndName(gameName: String, name: String): PlayerDao
 }

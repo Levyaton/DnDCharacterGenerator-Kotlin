@@ -5,11 +5,13 @@ import fan.dnd.dndcharactergeneratorkotlin.domain.Language
 import fan.dnd.dndcharactergeneratorkotlin.domain.Skill
 import fan.dnd.dndcharactergeneratorkotlin.domain.Weapon
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability
+import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.AttackAbility
+import fan.dnd.dndcharactergeneratorkotlin.domain.race.Race
 import jakarta.persistence.*
 
 @Entity
 class RaceDao(
-    val raceName: String,
+    val raceName: Race,
     val strength: Int,
     val dexterity: Int,
     val constitution: Int,
@@ -38,10 +40,10 @@ class RaceDao(
     val genericAbilities: Set<Ability>,
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "RaceDamageAbilities", joinColumns = [JoinColumn(name = "raceId")])
-    val damageAbilities: Set<Ability>,
+    val damageAbilities: Set<AttackAbility>,
     val proficiencies: Set<Skill>,
     val languages: Set<Language>,
     val armourProficiencies: Set<Armour>,
     val weaponProficiencies: Set<Weapon>,
 
-): IdAncestor()
+    ): IdAncestor()
