@@ -1,5 +1,7 @@
 package fan.dnd.dndcharactergeneratorkotlin.domain
 
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.StatName
+
 
 abstract class Stat(val value: Int = 0, val name: StatName) {
 

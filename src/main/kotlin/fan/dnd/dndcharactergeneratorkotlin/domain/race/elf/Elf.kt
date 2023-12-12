@@ -2,7 +2,7 @@ package fan.dnd.dndcharactergeneratorkotlin.domain.race.elf
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeName
-import fan.dnd.dndcharactergeneratorkotlin.domain.Language
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Language
 import fan.dnd.dndcharactergeneratorkotlin.domain.Skill
 import fan.dnd.dndcharactergeneratorkotlin.domain.Stat
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability

@@ -4,16 +4,20 @@ import fan.dnd.dndcharactergeneratorkotlin.BaseIntegrationTest
 import fan.dnd.dndcharactergeneratorkotlin.Given
 import fan.dnd.dndcharactergeneratorkotlin.Then
 import fan.dnd.dndcharactergeneratorkotlin.When
-import fan.dnd.dndcharactergeneratorkotlin.domain.Language
+import fan.dnd.dndcharactergeneratorkotlin.domain.Player
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Language
 import fan.dnd.dndcharactergeneratorkotlin.domain.Skill
-import fan.dnd.dndcharactergeneratorkotlin.domain.Weapon
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Weapon
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Armour
+import fan.dnd.dndcharactergeneratorkotlin.domain.race.Race
+import fan.dnd.dndcharactergeneratorkotlin.domain.spells.wizard.WizardSpellCantrip
 import fan.dnd.dndcharactergeneratorkotlin.persistance.PlayerDao
+import fan.dnd.dndcharactergeneratorkotlin.persistance.RaceDao
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 
 class PlayerControllerIntegrationTest : BaseIntegrationTest() {
 
@@ -61,7 +65,7 @@ class PlayerControllerIntegrationTest : BaseIntegrationTest() {
         }
         val race = raceRepository.findById(playerDao.raceId).get()
         assertSoftly(race){
-            this.raceName shouldBe "HighElf"
+            this.raceName shouldBe Race.HIGH_ELF
             strength shouldBe 0
             dexterity shouldBe 2
             constitution shouldBe 0
@@ -69,7 +73,7 @@ class PlayerControllerIntegrationTest : BaseIntegrationTest() {
             wisdom shouldBe 0
             charisma shouldBe 0
             cantrips.size shouldBe 1
-            cantrips.first().name shouldBe "Acid Splash"
+            cantrips.first() shouldBe WizardSpellCantrip.ACID_SPLASH.id
             spells.size shouldBe 0
             genericAbilities.size shouldBe 3
             assertSoftly(genericAbilities.toList().sortedBy { it.name }){
@@ -92,5 +96,46 @@ class PlayerControllerIntegrationTest : BaseIntegrationTest() {
             proficiencies shouldBe setOf(Skill.PERCEPTION)
             languages shouldBe setOf(Language.COMMON, Language.DWARVISH, Language.ELVISH)
         }
+    }
+
+
+    @Test
+    fun `When a getPlayer is called, then the given player is correctly found and transformed`() {
+        Given()
+
+        val raceDao = db.createRaceDao()
+        val playerDao = db.createPlayerDao(raceDao.id)
+
+        When("I call getPlayer")
+        val result = httpClient.get().uri("player/testGame/John Doe of Lancaster").retrieve().bodyToMono(Player::class.java).block()
+
+        Then("I get the correct player")
+        assertSoftly {  }
+        assertSoftly(result!!){
+            name shouldBe "John doe of Lancaster"
+            strength shouldBe 18
+            dexterity shouldBe 13
+            constitution shouldBe 10
+            intelligence shouldBe 13
+            wisdom shouldBe 8
+            charisma shouldBe 17
+            cantrips.size shouldBe 1
+            cantrips.first().name shouldBe "Dancing Lights"
+            spells.size shouldBe 1
+            spells.first().name shouldBe "Alarm"
+            genericAbilities.size shouldBe 1
+            genericAbilities.first().name shouldBe "Nightvision"
+            damageAbilities.size shouldBe 1
+            damageAbilities.first().name shouldBe "Dragonbreath"
+            weaponProficiencies.size shouldBe 2
+            weaponProficiencies shouldBe setOf(Weapon.BLOWGUN, Weapon.CLUB)
+            armourProficiencies.size shouldBe 2
+            armourProficiencies shouldBe setOf(Armour.BREASTPLATE, Armour.CHAIN_MAIL)
+            proficiencies.size shouldBe 2
+            proficiencies shouldBe setOf(Skill.PERCEPTION, Skill.ACROBATICS)
+            languages.size shouldBe 1
+            languages shouldBe setOf(Language.INFERNAL)
+        }
+
     }
 }

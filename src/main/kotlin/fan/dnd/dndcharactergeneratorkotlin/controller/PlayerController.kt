@@ -18,8 +18,8 @@ class PlayerController(
         return ResponseEntity(objectMapper.writeValueAsString(playerService.createPlayer(player)), HttpStatus.CREATED)
     }
 
-    @GetMapping("/{id}")
-    fun getPlayer(@PathVariable id: Long): ResponseEntity<String> = ResponseEntity.ok(objectMapper.writeValueAsString(playerService.getPlayerById(id)))
+    @GetMapping("/{gameName}/{playerName}")
+    fun getPlayer(@PathVariable gameName: String, @PathVariable playerName: String): ResponseEntity<String> = ResponseEntity.ok(objectMapper.writeValueAsString(playerService.getPlayer(gameName, playerName)))
 
 
     @PutMapping("/{id}")

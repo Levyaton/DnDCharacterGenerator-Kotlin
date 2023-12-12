@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import fan.dnd.dndcharactergeneratorkotlin.domain.*
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.AttackAbility
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Armour
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Language
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Weapon
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.dragonborn.Dragonborn
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.elf.Elf
-import fan.dnd.dndcharactergeneratorkotlin.persistance.RaceDao
 import org.apache.commons.lang3.builder.HashCodeBuilder
 
 

@@ -1,9 +1,12 @@
 package fan.dnd.dndcharactergeneratorkotlin.domain.abillity
 
-import fan.dnd.dndcharactergeneratorkotlin.domain.DamageType
-import fan.dnd.dndcharactergeneratorkotlin.domain.DiceType
-import fan.dnd.dndcharactergeneratorkotlin.domain.StatName
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.DamageType
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.DiceType
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Distance
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.StatName
 import jakarta.persistence.Embeddable
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import org.apache.commons.lang3.builder.HashCodeBuilder
 
 @Embeddable
@@ -12,12 +15,17 @@ class AttackAbility(
     description: String,
     useCount: Int,
     refreshRate: SkillRefreshRate,
-    val distance: String,
+    @Enumerated(EnumType.STRING)
+    val distance: Distance,
     val savingThrow: StatName,
+    @Enumerated(EnumType.STRING)
     val damageType: DamageType,
+    @Enumerated(EnumType.STRING)
     val damageDice: DiceType,
-    final val difficultyDice: DiceType,
-    final val throwModifier: StatName,
+    @Enumerated(EnumType.STRING)
+    val difficultyDice: DiceType,
+    @Enumerated(EnumType.STRING)
+    val throwModifier: StatName,
     final val addProficiencyBonus: Boolean
 ) : Ability(name, description, useCount, refreshRate) {
     val accuracyInfo: String = (difficultyDice.name + " + player " + throwModifier.name) + " modifier" + if (addProficiencyBonus) " + proficiency bonus" else ""

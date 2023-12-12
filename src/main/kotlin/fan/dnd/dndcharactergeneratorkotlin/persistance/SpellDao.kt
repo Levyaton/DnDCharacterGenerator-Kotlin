@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JsonDeserializer
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import fan.dnd.dndcharactergeneratorkotlin.domain.ClassName
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.ClassName
 import jakarta.persistence.*
 
 
@@ -21,6 +21,7 @@ class SpellDao @JsonCreator constructor(
     val concentration: String? = null,
     val castingTime: String? = null,
     val level: String? = null,
+    @Column(columnDefinition = "TEXT")
     val higherLevel: String? = null,
     val school: String? = null,
     @JsonProperty("clazz")
@@ -31,6 +32,7 @@ class SpellDao @JsonCreator constructor(
     @Column(name = "className")
     val clazz: Set<ClassName>,
     val oaths: String? = null,
+    @Column(columnDefinition = "TEXT")
     val material: String? = null,
     val patrons: String? = null,
     val circles: String? = null,
@@ -40,13 +42,7 @@ class SpellDao @JsonCreator constructor(
     val desc: String,
     val spellId: Int,
 
-    @ManyToMany(mappedBy = "spells", fetch = FetchType.EAGER)
-    val players: Set<PlayerDao>? = emptySet(),
-
-    @ManyToMany(mappedBy = "spells", fetch = FetchType.EAGER)
-    val races: Set<RaceDao>? = emptySet(),
-
-): IdAncestor()
+    ): IdAncestor()
 
 class ClassNameDeserializer : JsonDeserializer<Set<ClassName>>() {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Set<ClassName> {

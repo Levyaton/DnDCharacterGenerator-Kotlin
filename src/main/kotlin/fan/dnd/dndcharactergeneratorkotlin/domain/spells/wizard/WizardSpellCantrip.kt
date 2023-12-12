@@ -27,7 +27,7 @@ enum class WizardSpellCantrip(val id: Int) {
     SHOCKING_GRASP(333),
     SWORD_BURST(360),
     THUNDERCLAP(371),
-    TRUE_STRIKE(383)
+    TRUE_STRIKE(383);
 
     companion object {
         fun valueOf(id: Int): WizardSpellCantrip = entries.find { it.id == id } ?: throw IllegalArgumentException("No Spell with id $id exists!")

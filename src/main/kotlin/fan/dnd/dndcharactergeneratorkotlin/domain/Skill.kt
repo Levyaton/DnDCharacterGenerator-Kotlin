@@ -1,5 +1,7 @@
 package fan.dnd.dndcharactergeneratorkotlin.domain
 
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.StatName
+
 enum class Skill(private val associatedStat: StatName) {
     ACROBATICS(StatName.DEXTERITY),
     ANIMAL_HANDLING(StatName.WISDOM),

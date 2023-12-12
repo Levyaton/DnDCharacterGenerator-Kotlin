@@ -1,4 +1,4 @@
-package fan.dnd.dndcharactergeneratorkotlin.domain
+package fan.dnd.dndcharactergeneratorkotlin.domain.enumeration
 
 enum class DamageType {
     ACID,

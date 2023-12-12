@@ -27,8 +27,8 @@ class PlayerService(
             intelligence = race.intelligence().value,
             charisma = race.charisma().value,
             wisdom = race.wisdom().value,
-            cantrips = race.cantrips().map { spellRepository.findBySpellId(it) }.toSet(),
-            spells = race.spells().map { spellRepository.findBySpellId(it) }.toSet(),
+            cantrips = race.cantrips(),
+            spells = race.spells(),
             armourProficiencies = race.armourProficiencies(),
             weaponProficiencies = race.weaponProficiencies(),
             genericAbilities = race.genericAbilities(),
@@ -66,7 +66,7 @@ class PlayerService(
     fun getPlayer(gameName: String, playerName: String): Player {
         val playerDao = playerRepository.findByGameNameAndName(gameName, playerName)
         val raceDao = raceRepository.findById(playerDao.raceId).get()
-        return Player(player = playerDao, race = raceDao)
+        return Player(player = playerDao, race = raceDao, spellRepository = spellRepository)
     }
 
     fun getPlayerById(id: Long): PlayerDao = playerRepository.findById(id).get()

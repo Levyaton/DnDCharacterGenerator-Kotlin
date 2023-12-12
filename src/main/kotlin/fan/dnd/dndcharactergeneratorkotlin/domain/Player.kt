@@ -2,13 +2,17 @@ package fan.dnd.dndcharactergeneratorkotlin.domain
 
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.AttackAbility
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Armour
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Language
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Weapon
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.AbstractRace
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.RaceCreator
 import fan.dnd.dndcharactergeneratorkotlin.persistance.PlayerDao
 import fan.dnd.dndcharactergeneratorkotlin.persistance.RaceDao
 import fan.dnd.dndcharactergeneratorkotlin.persistance.SpellDao
+import fan.dnd.dndcharactergeneratorkotlin.persistance.SpellRepository
 
-class Player(race: RaceDao, player: PlayerDao) {
+class Player(race: RaceDao, player: PlayerDao, private val spellRepository: SpellRepository) {
     val name: String = player.name
     val race: AbstractRace = RaceCreator.build(race)
 
@@ -30,8 +34,8 @@ class Player(race: RaceDao, player: PlayerDao) {
 
     val speed: Int = race.speed + player.speed
 
-    val cantrips: Set<SpellDao> = race.cantrips + player.cantrips
-    val spells: Set<SpellDao> = race.spells + player.spells
+    val cantrips: Set<SpellDao> = (race.cantrips + player.cantrips).map { spellRepository.findBySpellId(it) }.toMutableSet()
+    val spells: Set<SpellDao> = (race.spells + player.spells).map { spellRepository.findBySpellId(it) }.toMutableSet()
     val weaponProficiencies: Set<Weapon> = race.weaponProficiencies + player.weaponProficiencies
     val armourProficiencies: Set<Armour> = race.armourProficiencies + player.armourProficiencies
     val genericAbilities: Set<Ability> = race.genericAbilities + player.genericAbilities

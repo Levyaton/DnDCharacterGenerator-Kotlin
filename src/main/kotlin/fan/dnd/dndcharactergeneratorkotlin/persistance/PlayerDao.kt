@@ -1,9 +1,9 @@
 package fan.dnd.dndcharactergeneratorkotlin.persistance
 
-import fan.dnd.dndcharactergeneratorkotlin.domain.Armour
-import fan.dnd.dndcharactergeneratorkotlin.domain.Language
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Armour
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Language
 import fan.dnd.dndcharactergeneratorkotlin.domain.Skill
-import fan.dnd.dndcharactergeneratorkotlin.domain.Weapon
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Weapon
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.Ability
 import fan.dnd.dndcharactergeneratorkotlin.domain.abillity.AttackAbility
 import jakarta.persistence.*
@@ -26,21 +26,13 @@ class PlayerDao(
     var wisdom: Int = 0,
     var charisma: Int = 0,
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "PlayerCantrips",
-        joinColumns = [JoinColumn(name = "playerId")],
-        inverseJoinColumns = [JoinColumn(name = "spellId")]
-    )
-    val cantrips: MutableSet<SpellDao>,
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PlayerCantrips", joinColumns = [JoinColumn(name = "playerId")])
+    val cantrips: MutableSet<Int>,
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "PlayerSpells",
-        joinColumns = [JoinColumn(name = "playerId")],
-        inverseJoinColumns = [JoinColumn(name = "spellId")]
-    )
-    val spells: MutableSet<SpellDao>,
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PlayerSpells", joinColumns = [JoinColumn(name = "playerId")])
+    val spells: MutableSet<Int>,
 
     @ElementCollection(targetClass = Weapon::class, fetch = FetchType.EAGER)
      @Enumerated(EnumType.STRING) // or EnumType.ORDINAL

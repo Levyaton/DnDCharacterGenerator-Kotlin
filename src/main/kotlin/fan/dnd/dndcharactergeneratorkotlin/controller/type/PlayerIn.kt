@@ -1,6 +1,6 @@
 package fan.dnd.dndcharactergeneratorkotlin.controller.type
 
-import fan.dnd.dndcharactergeneratorkotlin.domain.StatName
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.StatName
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.AbstractRace
 import kotlin.random.Random
 

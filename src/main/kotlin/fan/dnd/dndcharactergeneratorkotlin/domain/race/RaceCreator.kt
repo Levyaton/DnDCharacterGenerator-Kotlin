@@ -1,6 +1,6 @@
 package fan.dnd.dndcharactergeneratorkotlin.domain.race
 
-import fan.dnd.dndcharactergeneratorkotlin.domain.Language
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.Language
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.changling.Changeling
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.dragonborn.Dragonborn
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.dwarf.HillDwarf
@@ -16,6 +16,8 @@ import fan.dnd.dndcharactergeneratorkotlin.domain.race.human.Human
 import fan.dnd.dndcharactergeneratorkotlin.domain.race.tiefling.Tiefling
 import fan.dnd.dndcharactergeneratorkotlin.domain.spells.SpellBook
 import fan.dnd.dndcharactergeneratorkotlin.persistance.RaceDao
+
+
 
 class RaceCreator {
    companion object{
@@ -37,7 +39,7 @@ class RaceCreator {
 
 
        private fun buildHighElf(raceDao: RaceDao): HighElf = HighElf(
-               cantrip = SpellBook.findWizardCantrip(raceDao.cantrips.first().spellId) ?: throw IllegalStateException("High Elf must have cantrips that directly map to the wizard cantrop ids!"),
+               cantrip = SpellBook.findWizardCantrip(raceDao.cantrips.first()) ?: throw IllegalStateException("High Elf must have cantrips that directly map to the wizard cantrop ids!"),
                extraLanguage = raceDao.languages.first { !listOf(Language.ELVISH, Language.COMMON).contains(it) })
 
 

@@ -1,7 +1,6 @@
 package fan.dnd.dndcharactergeneratorkotlin.persistance;
 
-import fan.dnd.dndcharactergeneratorkotlin.domain.ClassName
-import fan.dnd.dndcharactergeneratorkotlin.persistance.SpellDao
+import fan.dnd.dndcharactergeneratorkotlin.domain.enumeration.ClassName
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface SpellRepository : JpaRepository<SpellDao, Long> {

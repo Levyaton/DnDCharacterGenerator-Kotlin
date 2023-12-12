@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.web.reactive.function.client.WebClient
 
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 abstract class BaseIntegrationTest: BaseTest() {
+    @Autowired
+    protected lateinit var db: TestDataBuilder
     @Autowired
     protected lateinit var playerRepository: PlayerRepository
     @Autowired
