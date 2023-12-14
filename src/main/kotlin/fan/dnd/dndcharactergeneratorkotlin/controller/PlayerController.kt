@@ -2,6 +2,7 @@ package fan.dnd.dndcharactergeneratorkotlin.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import fan.dnd.dndcharactergeneratorkotlin.controller.type.PlayerIn
+import fan.dnd.dndcharactergeneratorkotlin.domain.Player
 import fan.dnd.dndcharactergeneratorkotlin.service.PlayerService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,7 +20,10 @@ class PlayerController(
     }
 
     @GetMapping("/{gameName}/{playerName}")
-    fun getPlayer(@PathVariable gameName: String, @PathVariable playerName: String): ResponseEntity<String> = ResponseEntity.ok(objectMapper.writeValueAsString(playerService.getPlayer(gameName, playerName)))
+    fun getPlayer(@PathVariable gameName: String, @PathVariable playerName: String): Player{
+       val player = (playerService.getPlayer(gameName, playerName))
+        return player
+    }
 
 
     @PutMapping("/{id}")
